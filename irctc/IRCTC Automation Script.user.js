@@ -13,8 +13,8 @@
 
 $(document).ready(function(){
     if($("input[name='j_username']").length > 0){ //checks if the user is at the login page
-        $("input[name='j_username']").val('jihi'); // your username should go here
-        $("input[name='j_password']").val('jnj277'); // your password should go here
+        $("input[name='j_username']").val(''); // your username should go here
+        $("input[name='j_password']").val(''); // your password should go here
         $("input[name='j_captcha']").focus();
         $("#loginerrorpanel_shade").hide(); // takes care of automatically hiding the "Invalid Captcha" dialogue box if it shows
         $("#loginerrorpanel_container").hide(); // takes care of automatically hiding the "Invalid Captcha" dialogue box if it shows
