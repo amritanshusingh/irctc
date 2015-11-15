@@ -12,9 +12,9 @@
 'use strict';
 
 $(document).ready(function(){
-    var journeyDate = '15-11-2015';
+    var journeyDate = '16-11-2015';
     var trainNumber = '12155'; // your train number will go here (it should be in the list of trains in the result, else no responsibility of mine).
-    var travelClass = '3A' // travel class 1A, 2A, 3A, SL --support for EC CC and 2S is pending. */
+    var travelClass = 'SL' // travel class 1A, 2A, 3A, SL --support for EC CC and 2S is pending. */
     var sourceStationFull = 'BHOPAL  JN - BPL';
     var destinationStationFull = 'H NIZAMUDDIN - NZM';
     var sourceStationCode = 'BPL';
@@ -34,12 +34,12 @@ $(document).ready(function(){
             2a -> 0 and so on.
             So name the following variable carefully.
     TRICKY PART ENDS */
-    var classNumber = 2;
+    var classNumber = 3;
 
     var firstPassengerName='';
     var firstPassengerAge = '';
-    var firstPassengerGender = 'M' // M or F
-    var firstPassengerBirthPreference = 'LB' // LB, MB, UB, SU, SL
+    var firstPassengerGender = 'M'; // M or F
+    var firstPassengerBirthPreference = 'LB'; // LB, MB, UB, SU, SL
 
     if($("input[name='j_idt131:j_idt133:j_idt137']").length > 0 ) {
        $("input[name='j_idt131:j_idt133:j_idt137']").click(); // its for handling the page which asks us to 'continue' in a new session if previous session existed.
@@ -70,10 +70,25 @@ $(document).ready(function(){
 
             var travelClassId = '#cllink-'+trainNumber+'-'+travelClass+'-'+classNumber;
             $(travelClassId)[0].click(); //note the zero in square braces.
-
-            setTimeout(function(){
-                jpBook($('#'+trainNumber+'-'+travelClass+'-'+quota+'-0'),trainNumber,sourceStationCode,destinationStationCode,journeyDate,travelClass,quota,3,false);
-            }, 2000);
+            setInterval(function(){
+                $(travelClassId)[0].click();
+            },60000);
+            setInterval(function(){
+                var currentTime = new Date();
+                var hours = currentTime.getHours();
+                var minutes = currentTime.getMinutes();
+                var seconds = currentTime.getSeconds();
+                if(hours > 9 && quota === 'CK' && travelClass != 'SL'){
+                    setTimeout(function(){
+                        jpBook($('#'+trainNumber+'-'+travelClass+'-'+quota+'-0'),trainNumber,sourceStationCode,destinationStationCode,journeyDate,travelClass,quota,3,false);
+                    }, 1000);
+                }
+                if(hours >10 && quota === 'CK' && travelClass == 'SL') {
+                    setTimeout(function(){
+                        jpBook($('#'+trainNumber+'-'+travelClass+'-'+quota+'-0'),trainNumber,sourceStationCode,destinationStationCode,journeyDate,travelClass,quota,3,false);
+                    }, 1000);
+                }
+            }, 1500);
         }
     }
 
